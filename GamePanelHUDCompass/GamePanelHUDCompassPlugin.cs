@@ -1,6 +1,7 @@
 ﻿#if !UNITY_EDITOR
 
 using System;
+using System.Reflection;
 using BepInEx;
 using EFT.Airdrop;
 using EFT.Interactive;
@@ -8,7 +9,9 @@ using EFT.SynchronizableObjects;
 using GamePanelHUDCompass.Models;
 using GamePanelHUDCore.Attributes;
 using GamePanelHUDCore.Models;
+using HarmonyLib;
 using KmyTarkovApi;
+using KmyTarkovReflection;
 using KmyTarkovUtils;
 using UnityEngine;
 using static KmyTarkovApi.EFTHelpers;
@@ -47,7 +50,23 @@ namespace GamePanelHUDCompass
             _PlayerHelper.OnDead.Add(this, nameof(OnDead));
             _PlayerHelper.SetPropVisibility.Add(this, nameof(SetPropVisibility));
 
-            _AirdropLogicClassHelper.RaycastGround.Add(this, nameof(RaycastGround));
+            // Try using the standard hook, with fallback for different EFT versions
+            try
+            {
+                if (_AirdropLogicClassHelper.RaycastGround?.TargetMethod == null)
+                    throw new Exception("RaycastGround hook not available");
+                    
+                _AirdropLogicClassHelper.RaycastGround.Add(this, nameof(RaycastGround));
+            }
+            catch
+            {
+                // Fallback: Try to hook method_3 directly for compatibility
+                var methodInfo = AccessTools.Method(typeof(AirdropLogicClass), "method_3");
+                if (methodInfo != null)
+                {
+                    HookRef.Create(methodInfo).Add(this, nameof(RaycastGround));
+                }
+            }
 
             _AbstractQuestControllerClassHelper.OnConditionValueChanged.Add(this, nameof(OnConditionValueChanged));
         }

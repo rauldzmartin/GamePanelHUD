@@ -121,6 +121,20 @@ namespace GamePanelHUDCompass.Controllers
                 {
                     var id = condition.id;
 
+                    // Skip conditions already completed in previous raids
+                    if (SettingsModel.Instance.KeyHideCompletedConditions.Value)
+                    {
+                        try
+                        {
+                            if (quest.IsConditionDone(condition))
+                                continue;
+                        }
+                        catch
+                        {
+                            // Silently ignore if condition check fails
+                        }
+                    }
+
                     switch (condition)
                     {
                         case ConditionLeaveItemAtLocation location:

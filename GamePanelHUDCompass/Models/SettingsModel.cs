@@ -36,6 +36,7 @@ namespace GamePanelHUDCompass.Models
         public readonly ConfigEntry<bool> KeyConditionPlaceBeacon;
         public readonly ConfigEntry<bool> KeyConditionVisitPlace;
         public readonly ConfigEntry<bool> KeyConditionInZone;
+        public readonly ConfigEntry<bool> KeyHideCompletedConditions;
 
         public readonly ConfigEntry<Vector2> KeyAnchoredPosition;
         public readonly ConfigEntry<Vector2> KeySizeDelta;
@@ -138,6 +139,8 @@ namespace GamePanelHUDCompass.Models
             KeyConditionPlaceBeacon = configFile.Bind<bool>(questSettings, "PlaceBeacon", true);
             KeyConditionVisitPlace = configFile.Bind<bool>(questSettings, "VisitPlace", true);
             KeyConditionInZone = configFile.Bind<bool>(questSettings, "InZone", true);
+            KeyHideCompletedConditions = configFile.Bind<bool>(questSettings, "Hide Completed Conditions", true,
+                "Hide compass markers for quest conditions completed in previous raids. Takes effect on next raid start.");
 
             KeyAnchoredPosition =
                 configFile.Bind<Vector2>(positionScaleSettings, "Anchored Position", Vector2.zero);
