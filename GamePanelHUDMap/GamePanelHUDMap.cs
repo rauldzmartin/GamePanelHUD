@@ -1,9 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
+
 #if !UNITY_EDITOR
-
-using GamePanelHUDCore;
-using GamePanelHUDCore.Utils;
-
+using GamePanelHUDCore.Models;
 #endif
 
 namespace GamePanelHUDMap
@@ -11,16 +9,16 @@ namespace GamePanelHUDMap
     public class GamePanelHUDMap : MonoBehaviour
 #if !UNITY_EDITOR
 
-        , IUpdate
+        , KmyTarkovUtils.IUpdate
 
 #endif
     {
 #if !UNITY_EDITOR
 
-        private GamePanelHUDCorePlugin.HUDCoreClass HUDCore => GamePanelHUDCorePlugin.HUDCore;
-        private GamePanelHUDCorePlugin.HUDClass<GamePanelHUDMapPlugin.MapData, GamePanelHUDMapPlugin.SettingsData>
-            HUD => GamePanelHUDMapPlugin.HUD;
+        private HUDCoreModel HUDCore => HUDCoreModel.Instance;
 
+        private GamePanelHUDMapPlugin.HUDClass<GamePanelHUDMapPlugin.MapData, GamePanelHUDMapPlugin.SettingsData>
+            HUD => GamePanelHUDMapPlugin.HUD;
 #endif
 
         private AssetBundle _assetBundle;

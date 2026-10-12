@@ -1,5 +1,5 @@
-﻿using GamePanelHUDCore;
-using GamePanelHUDCore.Utils;
+using GamePanelHUDCore;
+using GamePanelHUDCore.Models;
 using UnityEngine;
 
 namespace GamePanelHUDMap
@@ -7,11 +7,11 @@ namespace GamePanelHUDMap
     public class GamePanelHUDMapUI : MonoBehaviour
 #if !UNITY_EDITOR
 
-        , IUpdate
+        , KmyTarkovUtils.IUpdate
 
 #endif
     {
-        private GamePanelHUDCorePlugin.HUDCoreClass HUDCore => GamePanelHUDCorePlugin.HUDCore;
+        private HUDCoreModel HUDCore => HUDCoreModel.Instance;
 
         public Vector3 playerPosition;
 
